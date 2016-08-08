@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- REQUERIED fields  -->
+<!-- Name of Logger when used LogBack. Must be the same in your application. -->
+<!DOCTYPE schema [
+   <!ENTITY LoggerName "FileAppenderLogger">]>
+
+<configuration>
+	<appender name="CUSTOM" class="com.bbva.kyof.llf.log.appender.file.FileAppender">
+		<!-- REQUIERED fields. All parameters can be set in the parameter setting class
+		 File name of file.  -->
+		<FileName> HybridFileAppender.txt </FileName>
+		<!--  Mode of Write the message in file: ONLY_MESSAGE, ALLCOMPLETE or LOGBACKLAYOUT -->
+		<LogEventMode> ONLY_MESSAGE </LogEventMode>
+		<!--  Mode of use this Appender: SYNCHRONOUS, ASYNCHRONOUS or MIXED -->
+		<HybridMode> ASYNCHRONOUS </HybridMode>
+		
+		<!-- OPTIONAL fields 
+		Size of the Ring Buffer. Must be power of 2-->
+		<RingSize> 8192 </RingSize>
+		<!--  Size of the Buffer, used to write to file. Depend on the size of your message -->
+		<BufferSize> 512 </BufferSize>
+		<!-- Discard logEvent if ring buffer is full until a specific amount of "DiscardPercent" -->
+		<IsDiscard> false </IsDiscard>
+		<!-- Amount of capacity to discard log events-->
+		<DiscardPercent> 85 </DiscardPercent>
+		<!-- Discards the selected level and all lower. TRACE, DEBUG, INFO, WARN, ERROR -->
+		<CleanLogLevel> DEBUG </CleanLogLevel>
+		<!-- Encoder. Optional, if you want to get a logEvent with a specific attributes LOGBACKLAYOUT-->
+		<encoder>
+			<pattern>%date %-4relative [%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<!--  Listen to logger status messages in the console  -->
+	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+	<logger name= "&LoggerName;" level="trace">
+		<appender-ref ref="CUSTOM" />
+	</logger>
+	
+	<root level="trace">
+	</root>
+</configuration>
+
+
+
